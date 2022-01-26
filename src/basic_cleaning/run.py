@@ -40,7 +40,7 @@ def go(args):
     artifact_path = artifact.file()
 
     df = pd.read_csv(artifact_path)
-    logger.info('Artifact {}loaded sucessful at {}'.format(artifact_path, time.strftime('%b_%d_%Y_%H_%M_%S')))
+    logger.info('Artifact {} loaded sucessful at {}'.format(artifact_path, time.strftime('%b_%d_%Y_%H_%M_%S')))
 
     # 1. after talking to the stakeholders, I remove all the records with abnormal prices.
     idx = df['price'].between(args.min_price, args.max_price)
@@ -52,11 +52,12 @@ def go(args):
     # 3. filter all the records in the New York city.
     idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
     df = df[idx].copy()
-    logger.info(f"Complete the basic data cleaning works sucessful.")
+    logger.info("Complete the basic data cleaning works sucessful.")
 
     # 4. save the processed file
-    df.to_csv('./basic_cleaning_data_{}.csv'.format(time.strftime('%Y_%m_%d_%H')))
-    logger.info(f"Save the basic data cleaning df in the current dir sucessful.", index=False)
+    df_path = './basic_cleaning_data_{}.csv'.format(time.strftime('%Y_%m_%d_%H'))
+    df.to_csv(df_path, index=False)
+    logger.info("Save the basic data cleaning df in the current dir sucessful.")
 
     # 5. upload the artifact
     # this prat is new 
@@ -66,7 +67,7 @@ def go(args):
         description=args.output_description
     )
 
-    artifact.add_file('basic_clean_data.csv')
+    artifact.add_file(df_path)
     
     run.log_artifact(artifact)
     artifact.wait()
