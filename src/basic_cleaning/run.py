@@ -79,7 +79,7 @@ def go(args):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="This steps cleans the data")
+    parser = argparse.ArgumentParser(description="These steps clean the data")
 
     parser.add_argument(
         "--input_artifact", 
