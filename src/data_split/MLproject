@@ -1,0 +1,26 @@
+name: data_split
+conda_env: conda.yml
+
+entry_points:
+    main:
+        parameters:
+            input:
+                description: Artifact/input csv to be split
+                type: string
+
+            test_size:
+                description: Ratio of the test data
+                type: float
+
+            random_seed:
+                description: A random seed making sure that the result is reproduciable
+                type: int
+                default: 42
+
+            stratify_by:
+                description: Column to use for stratification (if any)
+                type: string
+                default: 'none'
+
+        command: "python run.py --input {input} --test_size {test_size} --random_seed {random_seed} --stratify_by {stratify_by}" 
+            
